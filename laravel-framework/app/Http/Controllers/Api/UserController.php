@@ -7,6 +7,8 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -19,13 +21,31 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
-        $validated = $request->validated();
+        DB::beginTransaction();
 
-        User::create($validated);
+        try {
+            $validated = $request->validated();
+            $userData = Arr::except($validated, ['address']);
 
-        return response()->json([
-            'message' => 'Usuário criado com sucesso'
-        ], 201);
+            $user = User::create($userData);
+            $user->address()->create($validated['address']);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Usuário criado com sucesso'
+            ], 201);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->json([
+                'error' => [
+                    'code' => '001',
+                    'message' => 'Usuário não encontrado',
+                    'err' => $th->getMessage()
+                ]
+            ], 400);
+        }
     }
 
     public function show($id)

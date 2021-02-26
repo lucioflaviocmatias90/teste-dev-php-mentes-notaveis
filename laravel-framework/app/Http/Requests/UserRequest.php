@@ -30,7 +30,14 @@ class UserRequest extends FormRequest
 
         if ($this->method() === 'POST')
         {
-            return array_merge($rules, [ 'password' => 'required|string' ]);
+            return array_merge($rules, [
+                'password' => 'required|string',
+                'address.street' => 'required|string',
+                'address.number' => 'required|string',
+                'address.zipcode' => 'required|string',
+                'address.neighborhood' => 'required|string',
+                'address.city' => 'required|string',
+            ]);
         }
 
         if ($this->method() === 'PUT')

@@ -23,4 +23,17 @@ class Address extends Model
      * @var string
      */
     protected $keyType = 'string';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'zipcode',
+        'street',
+        'neighborhood',
+        'number',
+        'city',
+    ];
 }
