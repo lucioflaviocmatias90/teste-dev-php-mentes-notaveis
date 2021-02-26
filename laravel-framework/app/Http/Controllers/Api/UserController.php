@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::all();
+        $users = User::with('address')->orderBy('name')->get();
 
         return UserResource::collection($users);
     }
