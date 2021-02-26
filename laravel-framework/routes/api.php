@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('addresses', [AddressController::class, 'index']);
+Route::get('addresses/{id}', [AddressController::class, 'show']);
 
 Route::apiResource('users', UserController::class);

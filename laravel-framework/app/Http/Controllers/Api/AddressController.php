@@ -15,4 +15,11 @@ class AddressController extends Controller
 
         return AddressResource::collection($addresses);
     }
+
+    public function show($id)
+    {
+        $addresses = Address::find($id);
+
+        return new AddressResource($addresses);
+    }
 }

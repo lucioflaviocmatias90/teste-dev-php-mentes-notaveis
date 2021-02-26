@@ -1,0 +1,35 @@
+this.schedule(async trx => {
+      
+
+      await Database.table('cities')
+        .transacting(trx)
+        .insert([
+          ...citiesAC,
+          ...citiesAL,
+          ...citiesAM,
+          ...citiesAP,
+          ...citiesBA,
+          ...citiesCE,
+          ...citiesDF,
+          ...citiesES,
+          ...citiesGO,
+          ...citiesMA,
+          ...citiesMG,
+          ...citiesMS,
+          ...citiesMT,
+          ...citiesPA,
+          ...citiesPB,
+          ...citiesPE,
+          ...citiesPI,
+          ...citiesPR,
+          ...citiesRJ,
+          ...citiesRN,
+          ...citiesRO,
+          ...citiesRR,
+          ...citiesRS,
+          ...citiesSC,
+          ...citiesSE,
+          ...citiesSP,
+          ...citiesTO
+        ]);
+    });
