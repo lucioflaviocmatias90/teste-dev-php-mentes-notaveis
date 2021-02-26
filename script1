@@ -33,3 +33,33 @@ this.schedule(async trx => {
           ...citiesTO
         ]);
     });
+
+  $allCities = array_merge(
+          $citiesAC,
+          $citiesAL,
+          $citiesAM,
+          $citiesAP,
+          $citiesBA,
+          $citiesCE,
+          $citiesDF,
+          $citiesES,
+          $citiesGO,
+          $citiesMA,
+          $citiesMG,
+          $citiesMS,
+          $citiesMT,
+          $citiesPA,
+          $citiesPB,
+          $citiesPE,
+          $citiesPI,
+          $citiesPR,
+          $citiesRJ,
+          $citiesRN,
+          $citiesRO,
+          $citiesRR,
+          $citiesRS,
+          $citiesSC,
+          $citiesSE,
+          $citiesSP,
+          $citiesTO
+          );
