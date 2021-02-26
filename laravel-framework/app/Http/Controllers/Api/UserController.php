@@ -5,16 +5,21 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
     {
-        $users = User::with('address')->orderBy('name')->get();
+        $this->userRepository = $userRepository;
+    }
+
+    public function index()
+    {
+        $users = $this->userRepository->fetchAll();
 
         return UserResource::collection($users);
     }
@@ -25,10 +30,8 @@ class UserController extends Controller
 
         try {
             $validated = $request->validated();
-            $userData = Arr::except($validated, ['address']);
 
-            $user = User::create($userData);
-            $user->address()->create($validated['address']);
+            $this->userRepository->create($validated);
 
             DB::commit();
 
@@ -51,7 +54,7 @@ class UserController extends Controller
     public function show($id)
     {
         try {
-            $user = User::findOrFail($id);
+            $user = $this->userRepository->getById($id);
 
             return new UserResource($user);
         } catch (\Throwable $th) {
@@ -69,8 +72,7 @@ class UserController extends Controller
         try {
             $validated = $request->validated();
 
-            $user = User::findOrFail($id);
-            $user->update($validated);
+            $user = $this->userRepository->update($id, $validated);
 
             return response()->json($user);
         } catch (\Throwable $th) {
@@ -86,8 +88,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $user = User::findOrFail($id);
-            $user->delete();
+            $this->userRepository->deleteById($id);
 
             return response()->json([
                 'message' => 'Usuário excluído com sucesso'
