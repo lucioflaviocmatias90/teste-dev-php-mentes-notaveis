@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\StateController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,5 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('addresses', [AddressController::class, 'index']);
 Route::get('addresses/{id}', [AddressController::class, 'show']);
+
+Route::get('states', [StateController::class, 'index']);
+Route::get('states/{id}', [StateController::class, 'show']);
 
 Route::apiResource('users', UserController::class);
