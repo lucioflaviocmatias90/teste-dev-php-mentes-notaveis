@@ -31,3 +31,23 @@ services:
     volumes:
       - ./laravel-framework:/application
       - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: teste-php-swagger-ui
+    environment:
+      - SWAGGER_JSON=/app/swagger.yml
+    volumes:
+      - ./:/app
+    ports:
+      - "9000:8080"
+
+  swagger-editor:
+    image: swaggerapi/swagger-editor
+    container_name: teste-php-swagger-editor
+    environment:
+      - SWAGGER_JSON=/app/swagger.yml
+    volumes:
+      - ./:/app
+    ports:
+      - "9001:8080"

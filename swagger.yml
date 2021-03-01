@@ -1,0 +1,15 @@
+openapi: "3.0.2"
+info:
+  title: TESTE DEV PHP - Mentes Notáveis
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/api
+    description: Laravel Framework
+  - url: http://localhost:8081/api
+    description: PHP Not Framework
+paths:
+  /test:
+    get:
+      responses:
+        "200":
+          description: OK
