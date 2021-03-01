@@ -8,8 +8,318 @@ servers:
   - url: http://localhost:8081/api
     description: PHP Not Framework
 paths:
-  /test:
+  /users:
     get:
+      summary: Fetch all users
       responses:
         "200":
-          description: OK
+          description: Ok
+          content:
+            application/json:
+              examples:
+                Successful:
+                  value: |-
+                    {
+                      "data": [
+                        {
+                          "id": "c083b436-ded3-4535-b340-1afaf7fe8578",
+                          "name": "Arden Rowe",
+                          "email": "semmerich@example.net",
+                          "address": {
+                            "id": "78ab1696-c48e-4bc9-b25e-8815e58d1104",
+                            "zipcode": "Augustine Ridge",
+                            "street": "Wisozk Plaza",
+                            "number": "325537665",
+                            "neighborhood": "Mueller Estate",
+                            "city": "Lake Mable"
+                          },
+                          "created_at": "2021-02-26 02:19:23"
+                        },
+                        {
+                          "id": "abdad002-7d37-43aa-b93d-bf25806bfd1e",
+                          "name": "Daryl Barrows Jr.",
+                          "email": "ajast@example.com",
+                          "address": {
+                            "id": "61e24b94-4a0d-46c3-9647-d067e4e118c6",
+                            "zipcode": "Sarina Alley",
+                            "street": "Prohaska Station",
+                            "number": "594504206",
+                            "neighborhood": "Reinger Motorway",
+                            "city": "Emardhaven"
+                          },
+                          "created_at": "2021-02-26 02:19:24"
+                        }
+                      ]
+                    }
+      tags:
+        - users
+    post:
+      summary: Create a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Lucio Flavio
+                email:
+                  type: string
+                  example: lucioflavio@email.com
+                password:
+                  type: string
+                  example: 123123
+                address:
+                  type: object
+                  properties:
+                    zipcode:
+                      type: string
+                      example: 15045833
+                    street:
+                      type: string
+                      example: Antônio Lopes Mendonça
+                    number:
+                      type: string
+                      example: 354
+                    neighborhood:
+                      type: string
+                      example: Cidade Alta II
+                    city:
+                      type: string
+                      example: sdsdsdsd
+                  required:
+                    - "zipcode"
+                    - "street"
+                    - "number"
+                    - "neighborhood"
+                    - "city"
+              required:
+                - "name"
+                - "email"
+                - "password"
+                - "address"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              examples:
+                Successful:
+                  value: |-
+                    {
+                      "message": "Usuário criado com sucesso"
+                    }
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                not send required params:
+                  value: |-
+                    {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "name": [
+                          "The name field is required."
+                        ],
+                        "email": [
+                          "The email field is required."
+                        ],
+                        "password": [
+                          "The password field is required."
+                        ],
+                        "address.street": [
+                          "The address.street field is required."
+                        ],
+                        "address.number": [
+                          "The address.number field is required."
+                        ],
+                        "address.zipcode": [
+                          "The address.zipcode field is required."
+                        ],
+                        "address.neighborhood": [
+                          "The address.neighborhood field is required."
+                        ],
+                        "address.city": [
+                          "The address.city field is required."
+                        ]
+                      }
+                    }
+                the user already exists:
+                  value: |-
+                    {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "email": [
+                          "The email has already been taken."
+                        ]
+                      }
+                    }
+                generic error with treatment on request:
+                  value: |-
+                    {
+                      "error": {
+                        "code": "001",
+                        "message": "Usuário não encontrado",
+                        "err": "Any dispatched exception"
+                      }
+                    }
+      tags:
+        - users
+  /users/{userId}:
+    get:
+      summary: Show info of the specific user
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user that needs to be shown
+          required: true
+          example: e91d8fce-fd79-438a-a4e0-a808c838022a
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              examples:
+                Successful:
+                  value: |-
+                    {
+                      "data": {
+                        "id": "c083b436-ded3-4535-b340-1afaf7fe8578",
+                        "name": "Arden Rowe",
+                        "email": "semmerich@example.net",
+                        "address": {
+                          "id": "78ab1696-c48e-4bc9-b25e-8815e58d1104",
+                          "zipcode": "Augustine Ridge",
+                          "street": "Wisozk Plaza",
+                          "number": "325537665",
+                          "neighborhood": "Mueller Estate",
+                          "city": "Lake Mable"
+                        },
+                        "created_at": "2021-02-26 02:19:23"
+                      }
+                    }
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                user not found:
+                  value: |-
+                    {
+                      "error": {
+                        "code": "001",
+                        "message": "Usuário não encontrado"
+                      }
+                    }
+      tags:
+        - users
+    put:
+      summary: Update a specific user
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user that needs to be updated
+          required: true
+          example: e91d8fce-fd79-438a-a4e0-a808c838022a
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Lucio Flavio
+                email:
+                  type: string
+                  example: lucioflavio@email.com
+              required:
+                - "name"
+                - "email"
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              examples:
+                Successful:
+                  value: |-
+                    {
+                      "message": "Usuário atualizado com sucesso"
+                    }
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                not send required params:
+                  value: |-
+                    {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "name": [
+                          "The name field is required."
+                        ],
+                        "email": [
+                          "The email field is required."
+                        ]
+                      }
+                    }
+                the user already exists:
+                  value: |-
+                    {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "email": [
+                          "The email has already been taken."
+                        ]
+                      }
+                    }
+                generic error with treatment on request:
+                  value: |-
+                    {
+                      "error": {
+                        "code": "001",
+                        "message": "Usuário não encontrado",
+                        "err": "Any dispatched exception"
+                      }
+                    }
+      tags:
+        - users
+    delete:
+      summary: Delete a specific user
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user that needs to be deleted
+          required: true
+          example: e91d8fce-fd79-438a-a4e0-a808c838022a
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              examples:
+                Successful:
+                  value: |-
+                    {
+                      "message": "Usuário excluído com sucesso"
+                    }
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                generic error with treatment on request:
+                  value: |-
+                    {
+                      "error": {
+                        "code": "001",
+                        "message": "Usuário não encontrado",
+                        "err": "Any dispatched exception"
+                      }
+                    }
+      tags:
+        - users

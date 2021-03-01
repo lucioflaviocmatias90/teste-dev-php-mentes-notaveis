@@ -72,9 +72,11 @@ class UserController extends Controller
         try {
             $validated = $request->validated();
 
-            $user = $this->userRepository->update($id, $validated);
+            $this->userRepository->update($id, $validated);
 
-            return response()->json($user);
+            return response()->json([
+                'message' => 'Usuário atualizado com sucesso'
+            ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => [

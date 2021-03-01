@@ -45,3 +45,9 @@ Adicionar permissão
 ```
 docker-compose exec php-fpm chmod -R 755 /application/storage
 ```
+
+Executar as migrations e seeders do Laravel
+
+```
+docker-compose exec php-fpm php artisan migrate:fresh --seed
+```
