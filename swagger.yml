@@ -8,6 +8,95 @@ servers:
   - url: http://localhost:8081/api
     description: PHP Not Framework
 paths:
+  /addresses:
+    get:
+      summary: Show info of the specific user
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              examples:
+                Successful:
+                  value: |-
+                    {
+                      "data": [
+                        {
+                          "id": "31075028-ab7a-4236-b31d-13823a293bd5",
+                          "zipcode": "Rath Manor",
+                          "street": "Cremin Summit",
+                          "number": "1308779861",
+                          "neighborhood": "Christiansen Fall",
+                          "city": "New Stephan"
+                        },
+                        {
+                          "id": "47799420-6154-4e6f-8301-ed2315e3d42b",
+                          "zipcode": "Pagac Junction",
+                          "street": "Little Center",
+                          "number": "1366548854",
+                          "neighborhood": "Roel Cove",
+                          "city": "Swaniawskiport"
+                        }
+                      ]
+                    }
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                user not found:
+                  value: |-
+                    {
+                      "error": {
+                        "code": "001",
+                        "message": "Usuário não encontrado"
+                      }
+                    }
+      tags:
+        - addresses
+  /addresses/{userId}:
+    get:
+      summary: Show info of the specific user
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user that needs to be shown
+          required: true
+          example: e91d8fce-fd79-438a-a4e0-a808c838022a
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              examples:
+                Successful:
+                  value: |-
+                    {
+                      "data": {
+                        "id": "31075028-ab7a-4236-b31d-13823a293bd5",
+                        "zipcode": "Rath Manor",
+                        "street": "Cremin Summit",
+                        "number": "1308779861",
+                        "neighborhood": "Christiansen Fall",
+                        "city": "New Stephan"
+                      }
+                    }
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                user not found:
+                  value: |-
+                    {
+                      "error": {
+                        "code": "001",
+                        "message": "Usuário não encontrado"
+                      }
+                    }
+      tags:
+        - addresses
+
   /users:
     get:
       summary: Fetch all users
