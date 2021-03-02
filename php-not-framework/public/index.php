@@ -1,3 +1,11 @@
 <?php
 
-echo json_encode([ 'message' => 'hello world' ]);
+use Core\Router;
+
+require '../vendor/autoload.php';
+
+$routes = require '../route.php';
+
+header("Access-Control-Allow-Origin: *");
+
+(new Router($routes))->run();

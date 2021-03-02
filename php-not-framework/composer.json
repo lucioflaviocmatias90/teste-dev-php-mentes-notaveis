@@ -1,0 +1,17 @@
+{
+  "name": "lucioflaviocmatias90/php-not-framework",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Lucio Flavio",
+      "email": "lucioflavio.cmatias90@hotmail.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "App\\": "app",
+      "Core\\": "core"
+    }
+  }
+}
