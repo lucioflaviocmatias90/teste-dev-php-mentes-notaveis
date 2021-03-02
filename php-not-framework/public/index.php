@@ -18,8 +18,6 @@ $app->router->get('/api/states', function() {
     echo "Rota de estados";
 });
 
-$app->router->get('/api/users', function() {
-    echo "Rota de usuarios";
-});
+$app->router->get('/api/users', 'App\Controllers\UserController@index');
 
 $app->run();

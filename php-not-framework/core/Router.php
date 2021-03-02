@@ -13,7 +13,7 @@ class Router
     }
     
 
-    public function get(string $path, Callable $callback)
+    public function get(string $path, $callback)
     {
         $this->routes['get'][$path] = $callback;
     }
@@ -25,7 +25,18 @@ class Router
         $callback = $this->routes[$method][$path] ?? false;
 
         if ($callback === false) {
+            Application::$app->response->setStatusCode(404);
             echo "Route Not Found";
+            exit;
+        }
+
+        if (is_string($callback)) {
+            $exploded = explode('@', $callback);
+
+            $controllerName = new $exploded[0];
+            $controllerMethod = $exploded[1];
+
+            echo $controllerName->$controllerMethod();
             exit;
         }
 
