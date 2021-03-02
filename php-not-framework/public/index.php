@@ -1,11 +1,25 @@
 <?php
 
-use Core\Router;
+use Core\Application;
 
 require '../vendor/autoload.php';
 
-$routes = require '../route.php';
+$app = new Application();
 
-header("Access-Control-Allow-Origin: *");
+$app->router->get('/api/addresses', function() {
+    echo "Rota de endereços";
+});
 
-(new Router($routes))->run();
+$app->router->get('/api/cities', function() {
+    echo "Rota de cidades";
+});
+
+$app->router->get('/api/states', function() {
+    echo "Rota de estados";
+});
+
+$app->router->get('/api/users', function() {
+    echo "Rota de usuarios";
+});
+
+$app->run();
