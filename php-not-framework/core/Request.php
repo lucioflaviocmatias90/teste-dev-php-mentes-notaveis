@@ -20,4 +20,17 @@ class Request
     {
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
+
+    public function getBody()
+    {
+        $body = [];
+
+        if ($this->getMethod() === 'GET') {
+            foreach ($_GET as $key => $value) {
+                $body[$key] = filter_var($value, INPUT_GET);
+            }
+        }
+
+        return $body;
+    }
 }

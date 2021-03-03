@@ -6,16 +6,23 @@ class Router
 {
     private array $routes = [];
     private Request $request;
+    private Response $response;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, Response $response)
     {
         $this->request = $request;
+        $this->response = $response;
     }
     
 
     public function get(string $path, $callback)
     {
         $this->routes['get'][$path] = $callback;
+    }
+
+    public function post(string $path, $callback)
+    {
+        $this->routes['post'][$path] = $callback;
     }
 
     public function resolve()
@@ -25,7 +32,7 @@ class Router
         $callback = $this->routes[$method][$path] ?? false;
 
         if ($callback === false) {
-            Application::$app->response->setStatusCode(404);
+            $this->response->setStatusCode(404);
             echo "Route Not Found";
             exit;
         }
